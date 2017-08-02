@@ -34,6 +34,8 @@ public class GameWindow extends Frame {
     private boolean upPressed;
     private boolean downPressed;
 
+    final int PLAYER_SPEED = 5;
+
     public GameWindow() {
         background = SpriteUtils.loadImage("assets/images/background/0.png");
         player = SpriteUtils.loadImage("assets/images/players/straight/0.png");
@@ -122,19 +124,19 @@ public class GameWindow extends Frame {
 
     private void run() {
         if (rightPressed) {
-            playerX += 5;
+            playerX += PLAYER_SPEED;
         }
 
         if (leftPressed) {
-            playerX -= 5;
+            playerX -= PLAYER_SPEED;
         }
 
         if (downPressed) {
-            playerY += 5;
+            playerY += PLAYER_SPEED;
         }
 
         if(upPressed) {
-            playerY -= 5;
+            playerY -= PLAYER_SPEED;
         }
 
     }
