@@ -1,6 +1,10 @@
 package touhou;
 
 import tklibs.SpriteUtils;
+import touhou.bases.Constraints;
+import touhou.inputs.InputManager;
+import touhou.players.Player;
+import touhou.players.PlayerSpell;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -8,8 +12,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import static java.awt.event.KeyEvent.*;
+
+//https://github.com/qhuydtvt/ci1-huynq
 
 /**
  * Created by huynq on 7/29/17.
@@ -24,21 +31,16 @@ public class GameWindow extends Frame {
     private Graphics2D backbufferGraphics;
 
     private BufferedImage background;
-    private BufferedImage player;
 
-    private int playerX = 384 / 2;
-    private int playerY = 600;
-
-    private boolean rightPressed;
-    private boolean leftPressed;
-    private boolean upPressed;
-    private boolean downPressed;
-
-    final int PLAYER_SPEED = 5;
+    Player player = new Player();
+    ArrayList<PlayerSpell> playerSpells = new ArrayList<>();
+    InputManager inputManager = new InputManager();
 
     public GameWindow() {
         background = SpriteUtils.loadImage("assets/images/background/0.png");
-        player = SpriteUtils.loadImage("assets/images/players/straight/0.png");
+        player.inputManager = this.inputManager;
+        player.constraints = new Constraints(0, 768, 0, 384);
+        player.playerSpells = this.playerSpells;
         setupGameLoop();
         setupWindow();
     }
@@ -72,38 +74,12 @@ public class GameWindow extends Frame {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case VK_RIGHT:
-                        rightPressed = true;
-                        break;
-                    case VK_LEFT:
-                        leftPressed = true;
-                        break;
-                    case VK_UP:
-                        upPressed = true;
-                        break;
-                    case VK_DOWN:
-                        downPressed = true;
-                        break;
-                }
+                inputManager.keyPressed(e);
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case VK_RIGHT:
-                        rightPressed = false;
-                        break;
-                    case VK_LEFT:
-                        leftPressed = false;
-                        break;
-                    case VK_UP:
-                        upPressed = false;
-                        break;
-                    case VK_DOWN:
-                        downPressed = false;
-                        break;
-                }
+                inputManager.keyReleased(e);
             }
         });
     }
@@ -123,29 +99,21 @@ public class GameWindow extends Frame {
     }
 
     private void run() {
-        if (rightPressed) {
-            playerX += PLAYER_SPEED;
+        player.run();
+        for (PlayerSpell playerSpell : playerSpells) { //foreach
+            //playerSpell.run()
         }
-
-        if (leftPressed) {
-            playerX -= PLAYER_SPEED;
-        }
-
-        if (downPressed) {
-            playerY += PLAYER_SPEED;
-        }
-
-        if(upPressed) {
-            playerY -= PLAYER_SPEED;
-        }
-
     }
 
     private void render() {
         backbufferGraphics.setColor(Color.black);
         backbufferGraphics.fillRect(0, 0, 1024, 768);
         backbufferGraphics.drawImage(background, 0, 0, null);
-        backbufferGraphics.drawImage(player, playerX, playerY, null);
+        player.render(backbufferGraphics);
+
+        for (PlayerSpell playerSpell: playerSpells) {
+            //playerSpell.render(...)
+        }
 
         windowGraphics.drawImage(backbufferImage, 0, 0, null);
     }
