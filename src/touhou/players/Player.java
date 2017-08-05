@@ -45,11 +45,12 @@ public class Player {
     private void castSpell() {
         if (inputManager.xPressed) {
             PlayerSpell newSpell = new PlayerSpell();
+            newSpell.position.set(this.position);
             playerSpells.add(newSpell);
         }
     }
 
     public void render(Graphics2D g2d) {
-        g2d.drawImage(image, (int)position.x, (int)position.y, null);
+        g2d.drawImage(image, (int)(position.x - image.getWidth() / 2), (int)(position.y - image.getHeight() / 2), null);
     }
 }

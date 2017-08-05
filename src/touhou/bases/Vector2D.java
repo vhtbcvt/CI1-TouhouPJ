@@ -21,6 +21,19 @@ public class Vector2D {
         this.y += dy;
     }
 
+    public void set(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void set(Vector2D other) {
+        set(other.x, other.y);
+    }
+
+//    public Vector2D clone() {
+//
+//    }
+
     public void addUp(Vector2D other) {
         addUp(other.x, other.y);
     }
