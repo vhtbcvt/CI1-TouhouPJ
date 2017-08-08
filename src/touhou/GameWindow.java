@@ -37,6 +37,7 @@ public class GameWindow extends Frame {
     private FrameCounter delay = new FrameCounter(40);
     private int x = 20;
     private int y = 0;
+    private int bgy = 768 - 3109;
 
     Player player = new Player();
     ArrayList<PlayerSpell> playerSpells = new ArrayList<>();
@@ -134,7 +135,8 @@ public class GameWindow extends Frame {
     private void render() {
         backbufferGraphics.setColor(Color.black);
         backbufferGraphics.fillRect(0, 0, 384, 768);
-        backbufferGraphics.drawImage(background, 0, 0, null);
+        backbufferGraphics.drawImage(background, 0, bgy, null);
+        if (bgy < 0) bgy += 2;
         player.render(backbufferGraphics);
 
         for (Enemy enemy : enemies) {
