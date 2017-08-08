@@ -2,6 +2,8 @@ package touhou;
 
 import tklibs.SpriteUtils;
 import touhou.bases.Constraints;
+import touhou.bases.FrameCounter;
+import touhou.enemys.Enemy;
 import touhou.inputs.InputManager;
 import touhou.players.Player;
 import touhou.players.PlayerSpell;
@@ -14,7 +16,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import static java.awt.event.KeyEvent.*;
+
 
 //https://github.com/qhuydtvt/ci1-huynq
 
@@ -32,14 +34,20 @@ public class GameWindow extends Frame {
 
     private BufferedImage background;
 
+    private FrameCounter delay = new FrameCounter(40);
+    private int x = 20;
+    private int y = 0;
+
     Player player = new Player();
     ArrayList<PlayerSpell> playerSpells = new ArrayList<>();
+    ArrayList<Enemy> enemies = new ArrayList<>();
     InputManager inputManager = new InputManager();
 
     public GameWindow() {
+        pack();
         background = SpriteUtils.loadImage("assets/images/background/0.png");
-        player.inputManager = this.inputManager;
-        player.constraints = new Constraints(0, 768, 0, 384);
+        player.setInputManager(this.inputManager) ;
+        player.setConstraints(new Constraints( getInsets().top, 740, getInsets().left, 384));
         player.playerSpells = this.playerSpells;
         setupGameLoop();
         setupWindow();
@@ -50,7 +58,7 @@ public class GameWindow extends Frame {
     }
 
     private void setupWindow() {
-        this.setSize(1024, 768);
+        this.setSize(384, 740);
 
         this.setTitle("Touhou - Remade by QHuyDTVT");
         this.setVisible(true);
@@ -101,16 +109,37 @@ public class GameWindow extends Frame {
     private void run() {
         player.run();
 
+        for (Enemy enemy : enemies) {
+            enemy.run();
+        }
+
         for (PlayerSpell playerSpell : playerSpells) {
             playerSpell.run();
         }
+
+        if (delay.run()){
+            delay.reset();
+            castEnemy();
+        }
     }
+
+    public void castEnemy() {
+        Enemy enemy = new Enemy(x,y);
+        x += 60;
+        if (x>384) x =20;
+        enemies.add(enemy);
+    }
+
 
     private void render() {
         backbufferGraphics.setColor(Color.black);
-        backbufferGraphics.fillRect(0, 0, 1024, 768);
+        backbufferGraphics.fillRect(0, 0, 384, 768);
         backbufferGraphics.drawImage(background, 0, 0, null);
         player.render(backbufferGraphics);
+
+        for (Enemy enemy : enemies) {
+            enemy.render(backbufferGraphics);
+        }
 
         for (PlayerSpell playerSpell: playerSpells) {
             playerSpell.render(backbufferGraphics);
