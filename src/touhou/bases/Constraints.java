@@ -1,8 +1,6 @@
 package touhou.bases;
 
-/**
- * Created by huynq on 8/2/17.
- */
+
 public class Constraints {
     public float top;
     public float bottom;

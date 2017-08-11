@@ -3,31 +3,26 @@ package touhou.players;
 import tklibs.SpriteUtils;
 import touhou.bases.Constraints;
 import touhou.bases.FrameCounter;
-import touhou.bases.Vector2D;
+import touhou.bases.GameObject;
 import touhou.bases.renderers.ImageRenderer;
 import touhou.inputs.InputManager;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 
-public class Player {
+
+public class Player extends GameObject {
     private static final int SPEED = 5;
-    private Vector2D position;
     private InputManager inputManager;
     private Constraints constraints;
-    public ArrayList<PlayerSpell> playerSpells;
-    private ImageRenderer renderer;
 
     private FrameCounter coolDownCounter;
     private boolean spellLock;
 
     public Player() {
-        position = new Vector2D(384/2, 600);
+        super();
         this.spellLock = false;
-        BufferedImage image = SpriteUtils.loadImage("assets/images/players/straight/0.png");
-        renderer = new ImageRenderer(image);
+        renderer = new ImageRenderer(SpriteUtils.loadImage("assets/images/players/straight/0.png"));
         coolDownCounter = new FrameCounter(4);
     }
 
@@ -65,9 +60,8 @@ public class Player {
     private void castSpell() {
         if ((inputManager.cPressed)&&(!spellLock)) {
             PlayerSpell newSpell = new PlayerSpell();
-            newSpell.position1.set(this.position.x - 9, this.position.y - 14);
-            newSpell.position2.set(this.position.x + 9, this.position.y - 14);
-            playerSpells.add(newSpell);
+            newSpell.getPosition().set(this.position.x, this.position.y - 14);
+            GameObject.add(newSpell);
             spellLock = true;
             coolDownCounter.reset();
         }
