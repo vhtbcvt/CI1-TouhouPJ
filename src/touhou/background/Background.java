@@ -1,4 +1,4 @@
-package touhou.bases.background;
+package touhou.background;
 
 import tklibs.SpriteUtils;
 import touhou.bases.GameObject;

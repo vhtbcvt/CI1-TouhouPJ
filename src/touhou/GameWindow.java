@@ -1,9 +1,8 @@
 package touhou;
 
-import tklibs.SpriteUtils;
 import touhou.bases.Constraints;
 import touhou.bases.GameObject;
-import touhou.bases.background.Background;
+import touhou.background.Background;
 import touhou.enemies.EnemySpawner;
 import touhou.inputs.InputManager;
 import touhou.players.Player;
@@ -15,7 +14,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.util.Vector;
 
 
 public class GameWindow extends Frame {
@@ -37,6 +35,7 @@ public class GameWindow extends Frame {
 
     public GameWindow() {
         pack();
+
         addBackground();
         addPlayer();
         GameObject.add(enemySpawner);

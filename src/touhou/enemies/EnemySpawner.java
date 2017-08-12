@@ -27,6 +27,4 @@ public class EnemySpawner extends GameObject {
     public void run(){
         spawn();
     }
-
-
 }
