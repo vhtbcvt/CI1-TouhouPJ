@@ -15,7 +15,8 @@ public class Background extends GameObject {
         this.renderer = new ImageRenderer(image);
     }
 
-    public void run() {
+    public void run(Vector2D parentPosition) {
+        super.run(parentPosition);
         if (position.y < 3109/2)
         position.addUp(0, 2);
     }

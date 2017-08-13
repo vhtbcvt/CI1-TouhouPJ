@@ -2,6 +2,7 @@ package touhou.enemies;
 
 import touhou.bases.FrameCounter;
 import touhou.bases.GameObject;
+import touhou.bases.Vector2D;
 
 import java.util.Random;
 
@@ -24,7 +25,8 @@ public class EnemySpawner extends GameObject {
         }
     }
 
-    public void run(){
+    public void run(Vector2D parentPosition){
+        super.run(parentPosition);
         spawn();
     }
 }
